@@ -140,8 +140,8 @@ pnpm dev
 # Lint all packages
 pnpm lint
 
-# Type-check all packages
-pnpm typecheck
+# Format all files
+pnpm format
 ```
 
 ---
@@ -165,7 +165,6 @@ pnpm typecheck
    ```bash
    pnpm test
    pnpm lint
-   pnpm typecheck
    ```
 
 7. **Commit your changes** — Use conventional commit format:
@@ -208,7 +207,7 @@ pnpm typecheck
 - **Explicit return types** on all public methods
 - **JSDoc comments** for all public APIs
 - **ES modules** — Use `import`/`export` syntax, not `require`
-- **Decorators** use the TC39 Stage 3 proposal syntax (no `experimentalDecorators` when possible)
+- **Decorators** use `experimentalDecorators: true` (legacy decorators via `reflect-metadata`). While TC39 Stage 3 decorators are the future, we currently use the legacy decorator proposal for maximum compatibility with `reflect-metadata`
 
 ### Naming Conventions
 
@@ -229,27 +228,22 @@ pnpm typecheck
 - Files are organized by feature, not by type
 - Barrel files (`index.ts`) re-export public API
 
-### Linting
+### Linting and Formatting
 
-We use ESLint with TypeScript:
+We use [Biome](https://biomejs.dev/) for both linting and code formatting (replacing ESLint + Prettier):
 
 ```bash
+# Check for linting issues
 pnpm lint
-```
 
-Run linting before committing. Some issues can be auto-fixed:
+# Auto-fix linting issues
+pnpm lint:fix
 
-```bash
-pnpm lint --fix
-```
-
-### Formatting
-
-We use Prettier for code formatting:
-
-```bash
+# Format all files
 pnpm format
 ```
+
+Run linting before committing. Biome provides fast, unified linting and formatting with sensible defaults.
 
 ---
 

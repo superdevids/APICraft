@@ -46,7 +46,7 @@ export class DefinitionRegistry {
   }
 
   getParamDefinitions(target: Function): ParameterDefinition[] {
-    return Reflect.getOwnMetadata(PARAM_METADATA_KEY, target.prototype) ?? {};
+    return Reflect.getOwnMetadata(PARAM_METADATA_KEY, target.prototype) ?? [];
   }
 
   getAllDefinitions(): APIDefinition[] {

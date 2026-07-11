@@ -1,6 +1,31 @@
 import { z } from "zod";
 import type { TypeSchema } from "../types/index.js";
 
+/**
+ * Registry for named schemas, enabling reference resolution in buildZodSchema.
+ * Schemas can be registered and later resolved by name when a TypeSchema with
+ * kind "reference" is encountered.
+ */
+export class SchemaRegistry {
+  private static schemas = new Map<string, z.ZodTypeAny>();
+
+  static register(name: string, schema: z.ZodTypeAny): void {
+    this.schemas.set(name, schema);
+  }
+
+  static get(name: string): z.ZodTypeAny | undefined {
+    return this.schemas.get(name);
+  }
+
+  static clear(): void {
+    this.schemas.clear();
+  }
+
+  static has(name: string): boolean {
+    return this.schemas.has(name);
+  }
+}
+
 export function buildZodSchema(typeSchema: TypeSchema): z.ZodTypeAny {
   switch (typeSchema.kind) {
     case "string": {
@@ -46,7 +71,12 @@ export function buildZodSchema(typeSchema: TypeSchema): z.ZodTypeAny {
       const [first, second, ...rest] = typeSchema.members.map((m) => buildZodSchema(m));
       return z.union([first, second, ...rest]);
     }
-    case "reference":
+    case "reference": {
+      // Try to resolve from the reference registry
+      const refSchema = SchemaRegistry.get(typeSchema.name ?? "");
+      if (refSchema) return refSchema;
+      return z.any();
+    }
     default:
       return z.any();
   }

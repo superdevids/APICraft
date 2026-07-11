@@ -318,27 +318,45 @@ export class OpenAPIGenerator implements Generator {
   }
 
   private inferReturnType(route: RouteDefinition): SchemaObject | null {
-    const bodyParams = route.parameters.filter((p) => p.kind === "body");
-    if (bodyParams.length > 0) {
-      return null;
+    // Try to infer a basic response schema from the route parameters
+    // that are not body/context (these may indicate the response shape)
+    const pathParams = route.parameters.filter((p) => p.kind === "param");
+    const queryParams = route.parameters.filter((p) => p.kind === "query");
+
+    // For list endpoints (path ends with "/" or has query params like page/limit),
+    // infer an array response
+    const isListEndpoint = route.path === "/" && queryParams.some((p) => p.name === "page" || p.name === "limit");
+
+    if (isListEndpoint) {
+      return {
+        type: "array",
+        items: { type: "object" },
+      };
     }
 
-    const responseSchema: SchemaObject = {
-      type: "object",
-      properties: {},
-    };
-
-    for (const param of route.parameters) {
-      if (param.kind === "param" || param.kind === "query" || param.kind === "body") {
-        continue;
-      }
+    // For single-resource endpoints (has :id path param), infer an object response
+    if (pathParams.some((p) => p.name === "id")) {
+      return {
+        type: "object",
+        properties: {
+          id: { type: "string" },
+        },
+      };
     }
 
-    if (Object.keys(responseSchema.properties!).length === 0) {
-      return null;
+    // For create endpoints (POST /), infer an object response
+    if (route.method === "post" && route.path === "/") {
+      return {
+        type: "object",
+      };
     }
 
-    return responseSchema;
+    // Default: return a generic object schema for GET endpoints, null for others
+    if (route.method === "get") {
+      return { type: "object" };
+    }
+
+    return null;
   }
 
   private buildSchema(type: TypeSchema): SchemaObject {

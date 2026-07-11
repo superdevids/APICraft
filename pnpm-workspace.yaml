@@ -4,8 +4,5 @@ packages:
   - "packages/adapters/*"
   - "packages/middleware/*"
   - "packages/cli"
+  - "packages/create-apicraft"
   - "examples/*"
-allowBuilds:
-  '@nestjs/core': set this to true or false
-  core-js: set this to true or false
-  esbuild: set this to true or false

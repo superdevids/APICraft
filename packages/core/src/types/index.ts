@@ -161,6 +161,7 @@ export interface APICraftConfig {
   adapter?: "express" | "fastify" | "hono" | "next" | "koa" | "nest" | Adapter;
   server?: {
     port?: number;
+    host?: string;
     adapter?: "express" | "fastify" | "hono" | "next" | "koa" | "nest" | Adapter;
   };
   openapi?: {
@@ -169,9 +170,11 @@ export interface APICraftConfig {
     title?: string;
     version?: string;
     description?: string;
+    servers?: { url: string; description?: string }[];
   };
   client?: {
     output?: string;
+    name?: string;
   };
   middleware?: {
     cors?: {

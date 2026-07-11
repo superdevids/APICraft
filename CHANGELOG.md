@@ -87,6 +87,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Added `SchemaRegistry` class for named schema registration and reference resolution in Zod schema builder
+- Added `LifecycleManager.autoRegister()` method for automatic lifecycle hook detection from API class instances
+- Added comprehensive deployment guide (`docs/DEPLOYMENT.md`)
+- Added comprehensive development guide (`docs/DEVELOPMENT.md`)
+- Added comprehensive API reference (`docs/API_REFERENCE.md`)
+- Added comprehensive testing guide (`docs/TESTING.md`)
+- Added `packages/create-apicraft` scaffolding CLI package
+
+### Fixed
+
+- Fixed `DefinitionRegistry.getParamDefinitions()` returning empty object `{}` instead of empty array `[]` causing type mismatch
+- Fixed `@body` decorator losing type schema information when a Zod schema was provided
+- Fixed OpenAPI generator `inferReturnType()` dead loop that always returned `null` for response schemas
+- Fixed `APICraftApp` not invoking authentication guards during request processing — guards are now properly executed in the pipeline
+- Fixed `APICraftApp` not enforcing `@throttle` decorator — per-route rate limiting is now enforced with in-memory sliding window
+- Fixed `APICraftApp` only wiring CORS and Helmet global middleware — Logger, RateLimiter, and Compression middleware are now properly wired
+- Fixed lifecycle hooks auto-registration — API classes implementing `LifecycleHooks` are now auto-detected and registered
+- Fixed `buildZodSchema()` returning `z.any()` for `reference` kind — added `SchemaRegistry` for reference resolution
+- Fixed `APICraftApp.getOpenAPISpec()` not including `requestBody` schemas for body parameters
+- Fixed `APICraftApp.getOpenAPISpec()` not including security schemes for guarded routes
+- Fixed `pnpm-workspace.yaml` containing broken placeholder text in `allowBuilds` section
+- Fixed `apicraft.config.ts` not matching documented configuration schema
+- Fixed `CONTRIBUTING.md` incorrectly documenting ESLint/Prettier instead of Biome, and misrepresenting decorator configuration
+
 ### Planned
 
 - Streaming response support

@@ -64,6 +64,35 @@ export class LifecycleManager {
     this.hooks.delete(apiName);
   }
 
+  /**
+   * Auto-detect and register lifecycle hooks from an API class instance.
+   * If the instance implements LifecycleHooks, its hooks are registered
+   * automatically under the class name.
+   *
+   * @param apiName - The name to register hooks under (typically the class name)
+   * @param instance - An API class instance that may implement LifecycleHooks
+   * @returns true if hooks were registered, false otherwise
+   */
+  autoRegister(apiName: string, instance: unknown): boolean {
+    if (
+      instance &&
+      typeof instance === "object" &&
+      ("beforeRequest" in instance || "afterRequest" in instance || "onError" in instance)
+    ) {
+      const hooks = instance as LifecycleHooks;
+      // Only register if at least one hook is actually a function
+      if (
+        typeof hooks.beforeRequest === "function" ||
+        typeof hooks.afterRequest === "function" ||
+        typeof hooks.onError === "function"
+      ) {
+        this.register(apiName, hooks);
+        return true;
+      }
+    }
+    return false;
+  }
+
   /** Execute the beforeRequest hook for the given API, if registered. */
   async executeBeforeRequest(apiName: string, ctx: RequestContext): Promise<void> {
     const hooks = this.hooks.get(apiName);

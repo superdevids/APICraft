@@ -394,13 +394,7 @@ export function body(schema?: z.ZodTypeAny): ParameterDecorator {
       kind: "body",
       name: "body",
       index: parameterIndex,
-      type: schema
-        ? {
-            kind: "object",
-            name: "body",
-            zodInfo: { pattern: undefined },
-          }
-        : typeSchema,
+      type: typeSchema,
       zodSchema: schema,
       required: true,
     };
