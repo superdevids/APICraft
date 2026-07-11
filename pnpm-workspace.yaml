@@ -1,0 +1,11 @@
+packages:
+  - "packages/core"
+  - "packages/generators/*"
+  - "packages/adapters/*"
+  - "packages/middleware/*"
+  - "packages/cli"
+  - "examples/*"
+allowBuilds:
+  '@nestjs/core': set this to true or false
+  core-js: set this to true or false
+  esbuild: set this to true or false

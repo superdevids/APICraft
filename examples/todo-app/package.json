@@ -1,0 +1,21 @@
+{
+  "name": "todo-app-example",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "apicraft": "workspace:*",
+    "@apicraft/core": "workspace:*",
+    "@apicraft/adapter-express": "workspace:*",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0",
+    "tsx": "^4.19.0",
+    "@types/node": "^20.14.0"
+  }
+}

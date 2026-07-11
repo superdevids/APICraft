@@ -1,0 +1,31 @@
+{
+  "name": "apicraft",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc -b",
+    "start": "node dist/index.js",
+    "test": "vitest run --config tests/vitest.config.ts",
+    "test:watch": "vitest --config tests/vitest.config.ts",
+    "test:coverage": "vitest run --config tests/vitest.config.ts --coverage",
+    "lint": "biome check .",
+    "lint:fix": "biome check --apply .",
+    "format": "biome format --write ."
+  },
+  "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/node": "^20.14.0",
+    "biome": "^0.3.3",
+    "jsonwebtoken": "^9.0.2",
+    "express": "^4.21.0",
+    "@types/express": "^4.17.21",
+    "reflect-metadata": "^0.2.2",
+    "zod": "^3.23.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  }
+}

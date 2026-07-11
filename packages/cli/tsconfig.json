@@ -1,0 +1,18 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "composite": true,
+    "declaration": true
+  },
+  "include": ["src"],
+  "references": [
+    { "path": "../core" },
+    { "path": "../generators/openapi" },
+    { "path": "../generators/client" },
+    { "path": "../generators/react" },
+    { "path": "../generators/zod" },
+    { "path": "../generators/docs" }
+  ]
+}

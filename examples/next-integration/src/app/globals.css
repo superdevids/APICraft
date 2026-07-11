@@ -1,0 +1,12 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+}
+
+a:hover {
+  color: #3b82f6 !important;
+  text-decoration: underline;
+}
